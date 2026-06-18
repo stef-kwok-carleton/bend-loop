@@ -5,7 +5,7 @@ pstring = "string"
 
 def eventloop():
   bend index = 0:
-    when index <= (eventmax*temp):
+    when index <= (eventmax*loops):
       pstring = ("This will execute event #" + index), fork (index + 1)
      
     else:
