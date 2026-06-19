@@ -5,7 +5,7 @@ pstring = "string"
 
 def eventloop():
   bend index = 0, iteration = 0:
-    when index <= eventmax & iteration <= loops:
+    when index <= (eventmax) & iteration <= loops:
       if index < eventmax:
         pstring = pstring + ("This will execute event #" + index)+ fork (index + 1)
       else:
@@ -14,5 +14,5 @@ def eventloop():
       pstring = pstring + "reached end of list"
   return pstring
  
-def main:
+def main ()-> IO(u24):
   return eventloop 
