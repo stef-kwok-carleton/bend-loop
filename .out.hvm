@@ -1,0 +1,144 @@
+@String/Cons = (a (b ((@String/Cons/tag (a (b c))) c)))
+
+@String/Cons/tag = 1
+
+@String/Nil = ((@String/Nil/tag a) a)
+
+@String/Nil/tag = 0
+
+@Tree/Leaf = (a ((@Tree/Leaf/tag (a b)) b))
+
+@Tree/Leaf/tag = 1
+
+@Tree/Node = (a (b ((@Tree/Node/tag (a (b c))) c)))
+
+@Tree/Node/tag = 0
+
+@bendy = a
+  & @bendy__bend0 ~ (0 a)
+
+@bendy__bend0 = ({$([>0x0000002] ?((@bendy__bend0__C0 @bendy__bend0__C1) (a b))) a} b)
+
+@bendy__bend0__C0 = (* x)
+  & @String/Cons ~ (84 (w x))
+  & @String/Cons ~ (104 (v w))
+  & @String/Cons ~ (101 (u v))
+  & @String/Cons ~ (114 (t u))
+  & @String/Cons ~ (101 (s t))
+  & @String/Cons ~ (32 (r s))
+  & @String/Cons ~ (97 (q r))
+  & @String/Cons ~ (114 (p q))
+  & @String/Cons ~ (101 (o p))
+  & @String/Cons ~ (32 (n o))
+  & @String/Cons ~ (110 (m n))
+  & @String/Cons ~ (111 (l m))
+  & @String/Cons ~ (32 (k l))
+  & @String/Cons ~ (109 (j k))
+  & @String/Cons ~ (111 (i j))
+  & @String/Cons ~ (114 (h i))
+  & @String/Cons ~ (101 (g h))
+  & @String/Cons ~ (32 (f g))
+  & @String/Cons ~ (101 (e f))
+  & @String/Cons ~ (118 (d e))
+  & @String/Cons ~ (101 (c d))
+  & @String/Cons ~ (110 (b c))
+  & @String/Cons ~ (116 (a b))
+  & @String/Cons ~ (115 (@String/Nil a))
+
+@bendy__bend0__C1 = (* ($([+0x0000001] bb) db))
+  & @String/Cons ~ (84 (ab $([+] $(cb db))))
+  & @String/Cons ~ (104 (z ab))
+  & @String/Cons ~ (105 (y z))
+  & @String/Cons ~ (115 (x y))
+  & @String/Cons ~ (32 (w x))
+  & @String/Cons ~ (105 (v w))
+  & @String/Cons ~ (115 (u v))
+  & @String/Cons ~ (32 (t u))
+  & @String/Cons ~ (119 (s t))
+  & @String/Cons ~ (104 (r s))
+  & @String/Cons ~ (101 (q r))
+  & @String/Cons ~ (114 (p q))
+  & @String/Cons ~ (101 (o p))
+  & @String/Cons ~ (32 (n o))
+  & @String/Cons ~ (97 (m n))
+  & @String/Cons ~ (110 (l m))
+  & @String/Cons ~ (32 (k l))
+  & @String/Cons ~ (101 (j k))
+  & @String/Cons ~ (118 (i j))
+  & @String/Cons ~ (101 (h i))
+  & @String/Cons ~ (110 (g h))
+  & @String/Cons ~ (116 (f g))
+  & @String/Cons ~ (32 (e f))
+  & @String/Cons ~ (103 (d e))
+  & @String/Cons ~ (111 (c d))
+  & @String/Cons ~ (101 (b c))
+  & @String/Cons ~ (115 (a b))
+  & @String/Cons ~ (46 (@String/Nil a))
+  & @bendy__bend0 ~ (bb cb)
+
+@break = a
+  & @break__bend0 ~ (0 (0 a))
+
+@break__bend0 = ({$([>0x000001C] ?(((* (a a)) @break__bend0__C0) (b c))) b} c)
+
+@break__bend0__C0 = (* ({$([+0x0000001] a) $([+0x0000001] c)} ({$([*0x0000002] $([+0x0000000] b)) $([*0x0000002] $([+0x0000001] d))} f)))
+  &!@break__bend0 ~ (a (b $([+] $(e f))))
+  &!@break__bend0 ~ (c (d e))
+
+@halting = a
+  & @halting__bend0 ~ (0 a)
+
+@halting__bend0 = ({$([>0x0000000] a) b} c)
+  & $(a ?(((* 1) @halting__bend0__C0) (b c))) ~ [=0x0000000]
+
+@halting__bend0__C0 = (* ($([+0x0000001] a) b))
+  & @halting__bend0 ~ (a b)
+
+@main = a
+  & @break__bend0 ~ (0 (0 a))
+
+@notbreak = a
+  & @notbreak__bend0 ~ (0 (0 a))
+
+@notbreak__bend0 = ({$([>0x0000008] ?((@notbreak__bend0__C0 @notbreak__bend0__C1) (a b))) a} b)
+
+@notbreak__bend0__C0 = (* a)
+  & @Tree/Leaf ~ a
+
+@notbreak__bend0__C1 = (* ({$([+0x0000001] a) $([+0x0000001] d)} ({$([*0x0000002] $([+0x0000000] b)) $([*0x0000002] $([+0x0000001] e))} g)))
+  & @Tree/Node ~ (c (f g))
+  &!@notbreak__bend0 ~ (a (b c))
+  &!@notbreak__bend0 ~ (d (e f))
+
+@notmain = g
+  & @sum ~ g
+  & @Tree/Node ~ (c (f *))
+  & @Tree/Node ~ (a (b c))
+  & @Tree/Leaf ~ (1 a)
+  & @Tree/Leaf ~ (2 b)
+  & @Tree/Node ~ (d (e f))
+  & @Tree/Leaf ~ (3 d)
+  & @Tree/Leaf ~ (4 e)
+
+@sum = a
+  & @sum__fold0 ~ a
+
+@sum__fold0 = ((@sum__fold0__C1 a) a)
+
+@sum__fold0__C0 = (a (b d))
+  &!@sum__fold0 ~ (a $([+] $(c d)))
+  &!@sum__fold0 ~ (b c)
+
+@sum__fold0__C1 = (?((@sum__fold0__C0 (* (a a))) b) b)
+
+@treemaker = a
+  & @treemaker__bend0 ~ (0 a)
+
+@treemaker__bend0 = ({$([>0x0000003] ?(((* a) @treemaker__bend0__C0) (b c))) b} c)
+  & @Tree/Leaf ~ (7 a)
+
+@treemaker__bend0__C0 = (* ({$([+0x0000001] a) $([+0x0000001] c)} e))
+  & @Tree/Node ~ (b (d e))
+  &!@treemaker__bend0 ~ (a b)
+  &!@treemaker__bend0 ~ (c d)
+

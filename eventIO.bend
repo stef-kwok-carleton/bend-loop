@@ -14,18 +14,18 @@ def eventloop():
   loops = 2
   pstring = " "
   bend iteration = 0:
-    when iteration < eventmax:
+    when iteration < loops:
       bend index = 0:
-        when index < loops:
-          pstring = pstring + "This is where an event goes." + fork (index +1)
+        when index < eventmax:
+          pstring = Tree/Node{left: fork (index +1), right: Tree/Leaf {value: "Checking Event"}}
         else:
-          pstring = pstring + "There are no more events"
-      pstring = fork (iteration+1)
+          pstring = Tree/Leaf {value: "There are no more events"}
+      pstring = Tree/Node {left: fork (iteration+1), right: Tree/Leaf {value:"Going to next loop"}}  
     else:
-      pstring = pstring + "reached end of list"         
+      pstring =  Tree/Leaf {value: "reached end of list"}         
       
   return pstring
  
 def main() -> IO(u24):
-  return eprint (eventloop)
+  return eventloop
   
