@@ -1,3 +1,196 @@
+@IO/Call = (a (b (c (d ((@IO/Call/tag (a (b (c (d e))))) e)))))
+
+@IO/Call/tag = 1
+
+@IO/Done = (a (b ((@IO/Done/tag (a (b c))) c)))
+
+@IO/Done/tag = 0
+
+@IO/FS/STDOUT = 1
+
+@IO/FS/close = (f h)
+  & @IO/unwrap_inner ~ (g h)
+  & @IO/call ~ (e (f g))
+  & @String/Cons ~ (67 (d e))
+  & @String/Cons ~ (76 (c d))
+  & @String/Cons ~ (79 (b c))
+  & @String/Cons ~ (83 (a b))
+  & @String/Cons ~ (69 (@String/Nil a))
+
+@IO/FS/open = (e (f h))
+  & @IO/unwrap_inner ~ (g h)
+  & @IO/call ~ (d ((e f) g))
+  & @String/Cons ~ (79 (c d))
+  & @String/Cons ~ (80 (b c))
+  & @String/Cons ~ (69 (a b))
+  & @String/Cons ~ (78 (@String/Nil a))
+
+@IO/FS/read = (e (f h))
+  & @IO/unwrap_inner ~ (g h)
+  & @IO/call ~ (d ((e f) g))
+  & @String/Cons ~ (82 (c d))
+  & @String/Cons ~ (69 (b c))
+  & @String/Cons ~ (65 (a b))
+  & @String/Cons ~ (68 (@String/Nil a))
+
+@IO/FS/read_file = (a d)
+  & @IO/bind ~ (c (@IO/FS/read_file__C6 d))
+  & @IO/FS/open ~ (a (b c))
+  & @String/Cons ~ (114 (@String/Nil b))
+
+@IO/FS/read_file__C0 = ((c d) (b (a d)))
+  & @Result/and ~ (a (b c))
+
+@IO/FS/read_file__C1 = (a (c (d f)))
+  & @IO/bind ~ (b (((@IO/FS/read_file__C0 (c (d e))) e) f))
+  & @IO/FS/close ~ (a b)
+
+@IO/FS/read_file__C2 = ({a c} (d f))
+  & @IO/bind ~ (b (((@IO/FS/read_file__C1 (c (d e))) e) f))
+  & @IO/FS/read_to_end ~ (a b)
+
+@IO/FS/read_file__C3 = (* (a ((b c) c)))
+  & @Result/Err ~ (a b)
+
+@IO/FS/read_file__C4 = (?((@IO/FS/read_file__C2 @IO/FS/read_file__C3) a) a)
+
+@IO/FS/read_file__C5 = (a ((@IO/FS/read_file__C4 (a b)) b))
+
+@IO/FS/read_file__C6 = ((@IO/FS/read_file__C5 (@IO/wrap a)) a)
+
+@IO/FS/read_to_end = (a b)
+  & @IO/FS/read_to_end.read_chunks ~ (a (@List/Nil b))
+
+@IO/FS/read_to_end.read_chunks = ({a d} (c f))
+  & @IO/bind ~ (b (((@IO/FS/read_to_end.read_chunks__C6 (@IO/wrap (c (d e)))) e) f))
+  & @IO/FS/read ~ (a (1048576 b))
+
+@IO/FS/read_to_end.read_chunks__C0 = ((c d) (a (* d)))
+  & @Result/Ok ~ (b c)
+  & @List/flatten ~ (a b)
+
+@IO/FS/read_to_end.read_chunks__C1 = (* (b (c (* (e (a g))))))
+  & @IO/FS/read_to_end.read_chunks ~ (a (f g))
+  & @List/Cons ~ (d (e f))
+  & @List/Cons ~ (b (c d))
+
+@IO/FS/read_to_end.read_chunks__C2 = (?((@IO/FS/read_to_end.read_chunks__C0 @IO/FS/read_to_end.read_chunks__C1) a) a)
+
+@IO/FS/read_to_end.read_chunks__C3 = ((@IO/FS/read_to_end.read_chunks__C2 a) a)
+
+@IO/FS/read_to_end.read_chunks__C4 = (* (a ((b c) (* (* c)))))
+  & @Result/Err ~ (a b)
+
+@IO/FS/read_to_end.read_chunks__C5 = (?((@IO/FS/read_to_end.read_chunks__C3 @IO/FS/read_to_end.read_chunks__C4) a) a)
+
+@IO/FS/read_to_end.read_chunks__C6 = (a (b (c ((@IO/FS/read_to_end.read_chunks__C5 (a (b (c d)))) d))))
+
+@IO/FS/write = (f (g i))
+  & @IO/unwrap_inner ~ (h i)
+  & @IO/call ~ (e ((f g) h))
+  & @String/Cons ~ (87 (d e))
+  & @String/Cons ~ (82 (c d))
+  & @String/Cons ~ (73 (b c))
+  & @String/Cons ~ (84 (a b))
+  & @String/Cons ~ (69 (@String/Nil a))
+
+@IO/MAGIC = (13683217 16719857)
+
+@IO/bind = ((@IO/bind__C2 a) a)
+
+@IO/bind__C0 = (* (b (a c)))
+  & @undefer ~ (a (b c))
+
+@IO/bind__C1 = (* (a (b (c ((d e) (f h))))))
+  & @IO/Call ~ (a (b (c ((d g) h))))
+  & @IO/bind ~ (e (f g))
+
+@IO/bind__C2 = (?((@IO/bind__C0 @IO/bind__C1) a) a)
+
+@IO/call = (a (b c))
+  & @IO/Call ~ (@IO/MAGIC (a (b (@IO/call__C0 c))))
+
+@IO/call__C0 = a
+  & @IO/Done ~ (@IO/MAGIC a)
+
+@IO/print = (a d)
+  & @IO/bind ~ (c (@IO/print__C1 d))
+  & @IO/FS/write ~ (@IO/FS/STDOUT (b c))
+  & @String/encode_utf8 ~ (a b)
+
+@IO/print__C0 = ((b c) (a c))
+  & @Result/unwrap ~ (a b)
+
+@IO/print__C1 = ((@IO/print__C0 (@IO/wrap a)) a)
+
+@IO/unwrap_inner = (a b)
+  & @IO/bind ~ (a (@IO/unwrap_inner__C4 b))
+
+@IO/unwrap_inner__C0 = (a ((b c) c))
+  & @Result/Ok ~ (a b)
+
+@IO/unwrap_inner__C1 = (* (a ((c d) d)))
+  & @Result/Err ~ (b c)
+  & @IOError/unwrap_inner ~ (a b)
+
+@IO/unwrap_inner__C2 = (?((@IO/unwrap_inner__C0 @IO/unwrap_inner__C1) a) a)
+
+@IO/unwrap_inner__C3 = (a ((@IO/unwrap_inner__C2 (a b)) b))
+
+@IO/unwrap_inner__C4 = ((@IO/unwrap_inner__C3 (@IO/wrap a)) a)
+
+@IO/wrap = a
+  & @IO/Done ~ (@IO/MAGIC a)
+
+@IOError/unwrap_inner = ((@IOError/unwrap_inner__C1 a) a)
+
+@IOError/unwrap_inner__C0 = (?((@unreachable (* (a a))) b) b)
+
+@IOError/unwrap_inner__C1 = (?((@unreachable @IOError/unwrap_inner__C0) a) a)
+
+@List/Cons = (a (b ((@List/Cons/tag (a (b c))) c)))
+
+@List/Cons/tag = 1
+
+@List/Nil = ((@List/Nil/tag a) a)
+
+@List/Nil/tag = 0
+
+@List/concat = ((@List/concat__C1 a) a)
+
+@List/concat__C0 = (* (a (b (c e))))
+  & @List/Cons ~ (a (d e))
+  & @List/concat ~ (b (c d))
+
+@List/concat__C1 = (?(((a a) @List/concat__C0) b) b)
+
+@List/flatten = ((@List/flatten__C1 a) a)
+
+@List/flatten__C0 = (* (a (b d)))
+  & @List/concat ~ (a (c d))
+  & @List/flatten ~ (b c)
+
+@List/flatten__C1 = (?((@List/Nil @List/flatten__C0) a) a)
+
+@Result/Err = (a ((@Result/Err/tag (a b)) b))
+
+@Result/Err/tag = 1
+
+@Result/Ok = (a ((@Result/Ok/tag (a b)) b))
+
+@Result/Ok/tag = 0
+
+@Result/and = ((@Result/and__C1 a) a)
+
+@Result/and__C0 = (* (a (* b)))
+  & @Result/Err ~ (a b)
+
+@Result/and__C1 = (?(((* (a a)) @Result/and__C0) b) b)
+
+@Result/unwrap = ((@Result/unwrap__C0 a) a)
+
+@Result/unwrap__C0 = (?(((a a) (* (b b))) c) c)
+
 @String/Cons = (a (b ((@String/Cons/tag (a (b c))) c)))
 
 @String/Cons/tag = 1
@@ -6,139 +199,237 @@
 
 @String/Nil/tag = 0
 
-@Tree/Leaf = (a ((@Tree/Leaf/tag (a b)) b))
+@String/decode_utf8 = ((@String/decode_utf8__C4 a) a)
 
-@Tree/Leaf/tag = 1
+@String/decode_utf8__C0 = (a b)
+  & @String/Cons ~ (a (@String/Nil b))
 
-@Tree/Node = (a (b ((@Tree/Node/tag (a (b c))) c)))
+@String/decode_utf8__C1 = (* (b (c (a f))))
+  & @String/Cons ~ (a (e f))
+  & @String/decode_utf8 ~ (d e)
+  & @List/Cons ~ (b (c d))
 
-@Tree/Node/tag = 0
+@String/decode_utf8__C2 = (?((@String/decode_utf8__C0 @String/decode_utf8__C1) a) a)
 
-@bendy = a
-  & @bendy__bend0 ~ (0 a)
+@String/decode_utf8__C3 = (* (a (b e)))
+  & @Utf8/decode_character ~ (c (d (@String/decode_utf8__C2 (d e))))
+  & @List/Cons ~ (a (b c))
 
-@bendy__bend0 = ({$([>0x0000002] ?((@bendy__bend0__C0 @bendy__bend0__C1) (a b))) a} b)
+@String/decode_utf8__C4 = (?((@String/Nil @String/decode_utf8__C3) a) a)
 
-@bendy__bend0__C0 = (* x)
-  & @String/Cons ~ (84 (w x))
-  & @String/Cons ~ (104 (v w))
-  & @String/Cons ~ (101 (u v))
-  & @String/Cons ~ (114 (t u))
-  & @String/Cons ~ (101 (s t))
-  & @String/Cons ~ (32 (r s))
-  & @String/Cons ~ (97 (q r))
-  & @String/Cons ~ (114 (p q))
-  & @String/Cons ~ (101 (o p))
-  & @String/Cons ~ (32 (n o))
-  & @String/Cons ~ (110 (m n))
-  & @String/Cons ~ (111 (l m))
-  & @String/Cons ~ (32 (k l))
-  & @String/Cons ~ (109 (j k))
-  & @String/Cons ~ (111 (i j))
-  & @String/Cons ~ (114 (h i))
-  & @String/Cons ~ (101 (g h))
-  & @String/Cons ~ (32 (f g))
-  & @String/Cons ~ (101 (e f))
-  & @String/Cons ~ (118 (d e))
-  & @String/Cons ~ (101 (c d))
-  & @String/Cons ~ (110 (b c))
-  & @String/Cons ~ (116 (a b))
-  & @String/Cons ~ (115 (@String/Nil a))
+@String/encode_utf8 = ((@String/encode_utf8__C7 a) a)
 
-@bendy__bend0__C1 = (* ($([+0x0000001] bb) db))
-  & @String/Cons ~ (84 (ab $([+] $(cb db))))
-  & @String/Cons ~ (104 (z ab))
-  & @String/Cons ~ (105 (y z))
-  & @String/Cons ~ (115 (x y))
-  & @String/Cons ~ (32 (w x))
+@String/encode_utf8__C0 = ({$([&0x000003F] g) {$([:>>0x0000006] $([&0x000003F] e)) {$([:>>0x000000C] $([&0x000003F] c)) $([:>>0x0000012] a)}}} (i n))
+  & @List/Cons ~ (b (m n))
+  & $(a b) ~ [|0x00000F0]
+  & @List/Cons ~ (d (l m))
+  & $(c d) ~ [|0x0000080]
+  & @List/Cons ~ (f (k l))
+  & $(e f) ~ [|0x0000080]
+  & @List/Cons ~ (h (j k))
+  & $(g h) ~ [|0x0000080]
+  & @String/encode_utf8 ~ (i j)
+
+@String/encode_utf8__C1 = (* ({$([&0x000003F] e) {$([:>>0x0000006] $([&0x000003F] c)) $([:>>0x000000C] a)}} (g k)))
+  & @List/Cons ~ (b (j k))
+  & $(a b) ~ [|0x00000E0]
+  & @List/Cons ~ (d (i j))
+  & $(c d) ~ [|0x0000080]
+  & @List/Cons ~ (f (h i))
+  & $(e f) ~ [|0x0000080]
+  & @String/encode_utf8 ~ (g h)
+
+@String/encode_utf8__C2 = ({$([<0x000FFFF] a) b} c)
+  & $(a ?((@String/encode_utf8__C0 @String/encode_utf8__C1) (b c))) ~ [=0x0000000]
+
+@String/encode_utf8__C3 = (* ({$([&0x000003F] c) $([:>>0x0000006] a)} (e h)))
+  & @List/Cons ~ (b (g h))
+  & $(a b) ~ [|0x00000C0]
+  & @List/Cons ~ (d (f g))
+  & $(c d) ~ [|0x0000080]
+  & @String/encode_utf8 ~ (e f)
+
+@String/encode_utf8__C4 = ({$([<0x00007FF] a) b} c)
+  & $(a ?((@String/encode_utf8__C2 @String/encode_utf8__C3) (b c))) ~ [=0x0000000]
+
+@String/encode_utf8__C5 = (* (a (b d)))
+  & @List/Cons ~ (a (c d))
+  & @String/encode_utf8 ~ (b c)
+
+@String/encode_utf8__C6 = (* ({$([<0x000007F] a) b} c))
+  & $(a ?((@String/encode_utf8__C4 @String/encode_utf8__C5) (b c))) ~ [=0x0000000]
+
+@String/encode_utf8__C7 = (?((@List/Nil @String/encode_utf8__C6) a) a)
+
+@Utf8/REPLACEMENT_CHARACTER = 65533
+
+@Utf8/decode_character = ((@Utf8/decode_character__C30 a) a)
+
+@Utf8/decode_character__C0 = (* (@Utf8/REPLACEMENT_CHARACTER @List/Nil))
+
+@Utf8/decode_character__C1 = (* (a (a @List/Nil)))
+
+@Utf8/decode_character__C10 = ({$([&0x00000E0] $([=0x00000C0] ?((@Utf8/decode_character__C8 @Utf8/decode_character__C9) (a b)))) a} b)
+
+@Utf8/decode_character__C11 = (* (a (b (c (a e)))))
+  & @List/Cons ~ (b (d e))
+  & @List/Cons ~ (c (@List/Nil d))
+
+@Utf8/decode_character__C12 = (* (a (* (* (* (@Utf8/REPLACEMENT_CHARACTER a))))))
+
+@Utf8/decode_character__C13 = (* ($([&0x000003F] a) (e ($([&0x0000007] $([:<<0x0000012] $([|] $(c d)))) ($([&0x000003F] $([:<<0x000000C] $([|] $(b c)))) ($([&0x000003F] $([:<<0x0000006] $([|] $(a b)))) (d e)))))))
+
+@Utf8/decode_character__C14 = (a (b ({$([&0x00000F8] $([=0x00000F0] ?((@Utf8/decode_character__C12 @Utf8/decode_character__C13) (a (b (c d)))))) c} d)))
+
+@Utf8/decode_character__C15 = (* (d (e ($([&0x000000F] $([:<<0x000000C] $([|] $(b c)))) ($([&0x000003F] $([:<<0x0000006] $([|] $(a b)))) ($([&0x000003F] a) (c f)))))))
+  & @List/Cons ~ (d (e f))
+
+@Utf8/decode_character__C16 = (a (b ({$([&0x00000F0] $([=0x00000E0] ?((@Utf8/decode_character__C14 @Utf8/decode_character__C15) (a (b (c d)))))) c} d)))
+
+@Utf8/decode_character__C17 = (* (d (e ($([&0x000001F] $([:<<0x0000006] $([|] $(a b)))) ($([&0x000003F] a) (c (b g)))))))
+  & @List/Cons ~ (c (f g))
+  & @List/Cons ~ (d (e f))
+
+@Utf8/decode_character__C18 = (a (b ({$([&0x00000E0] $([=0x00000C0] ?((@Utf8/decode_character__C16 @Utf8/decode_character__C17) (a (b (c d)))))) c} d)))
+
+@Utf8/decode_character__C19 = (* (d (e (a (b (c (a h)))))))
+  & @List/Cons ~ (b (g h))
+  & @List/Cons ~ (c (f g))
+  & @List/Cons ~ (d (e f))
+
+@Utf8/decode_character__C2 = (* (* (@Utf8/REPLACEMENT_CHARACTER @List/Nil)))
+
+@Utf8/decode_character__C20 = ({$([<0x000007F] a) b} c)
+  & $(a ?((@Utf8/decode_character__C10 @Utf8/decode_character__C11) (b c))) ~ [=0x0000000]
+
+@Utf8/decode_character__C21 = (* (b (c ({$([<0x000007F] a) d} e))))
+  & $(a ?((@Utf8/decode_character__C18 @Utf8/decode_character__C19) (b (c (d e))))) ~ [=0x0000000]
+
+@Utf8/decode_character__C22 = (?((@Utf8/decode_character__C20 @Utf8/decode_character__C21) a) a)
+
+@Utf8/decode_character__C23 = ({$([<0x000007F] a) b} c)
+  & $(a ?((@Utf8/decode_character__C4 @Utf8/decode_character__C5) (b c))) ~ [=0x0000000]
+
+@Utf8/decode_character__C24 = (* (c ((@Utf8/decode_character__C22 (a (b (c d)))) (a (b d)))))
+
+@Utf8/decode_character__C25 = (?((@Utf8/decode_character__C23 @Utf8/decode_character__C24) a) a)
+
+@Utf8/decode_character__C26 = ({$([<0x000007F] a) b} c)
+  & $(a ?((@Utf8/decode_character__C0 @Utf8/decode_character__C1) (b c))) ~ [=0x0000000]
+
+@Utf8/decode_character__C27 = (* (b ((@Utf8/decode_character__C25 (a (b c))) (a c))))
+
+@Utf8/decode_character__C28 = (?((@Utf8/decode_character__C26 @Utf8/decode_character__C27) a) a)
+
+@Utf8/decode_character__C29 = (* (a ((@Utf8/decode_character__C28 (a b)) b)))
+
+@Utf8/decode_character__C3 = (* ($([&0x000001F] $([:<<0x0000006] $([|] $(a b)))) ($([&0x000003F] a) (b @List/Nil))))
+
+@Utf8/decode_character__C30 = (?(((0 @List/Nil) @Utf8/decode_character__C29) a) a)
+
+@Utf8/decode_character__C4 = ({$([&0x00000E0] $([=0x00000C0] ?((@Utf8/decode_character__C2 @Utf8/decode_character__C3) (a b)))) a} b)
+
+@Utf8/decode_character__C5 = (* (a (b (a c))))
+  & @List/Cons ~ (b (@List/Nil c))
+
+@Utf8/decode_character__C6 = (* (* (* (@Utf8/REPLACEMENT_CHARACTER @List/Nil))))
+
+@Utf8/decode_character__C7 = (* ($([&0x000000F] $([:<<0x000000C] $([|] $(b c)))) ($([&0x000003F] $([:<<0x0000006] $([|] $(a b)))) ($([&0x000003F] a) (c @List/Nil)))))
+
+@Utf8/decode_character__C8 = ({$([&0x00000F0] $([=0x00000E0] ?((@Utf8/decode_character__C6 @Utf8/decode_character__C7) (a b)))) a} b)
+
+@Utf8/decode_character__C9 = (* ($([&0x000001F] $([:<<0x0000006] $([|] $(a b)))) ($([&0x000003F] a) (c (b d)))))
+  & @List/Cons ~ (c (@List/Nil d))
+
+@address = h
+  & @String/Cons ~ (116 (g h))
+  & @String/Cons ~ (101 (f g))
+  & @String/Cons ~ (115 (e f))
+  & @String/Cons ~ (116 (d e))
+  & @String/Cons ~ (46 (c d))
+  & @String/Cons ~ (116 (b c))
+  & @String/Cons ~ (120 (a b))
+  & @String/Cons ~ (116 (@String/Nil a))
+
+@control_loop = (* a)
+  & @IO/bind ~ (@control_loop__C10 (@control_loop__C9 a))
+
+@control_loop__C0 = ((1 a) (* b))
+  & @control_loop ~ (a b)
+
+@control_loop__C1 = b
+  & @IO/print ~ (a b)
+  & @String/Cons ~ (10 (@String/Nil a))
+
+@control_loop__C10 = d
+  & @IO/print ~ (c d)
+  & @String/Cons ~ (66 (b c))
+  & @String/Cons ~ (101 (a b))
+  & @String/Cons ~ (110 (@control_loop__C8 a))
+
+@control_loop__C2 = (a (* c))
+  & @IO/bind ~ (@control_loop__C1 (((@control_loop__C0 (a b)) b) c))
+
+@control_loop__C3 = (e (a g))
+  & @IO/bind ~ (d (((@control_loop__C2 (e f)) f) g))
+  & @IO/print ~ (c d)
+  & @String/decode_utf8 ~ (b c)
+  & @Result/unwrap ~ (a b)
+
+@control_loop__C4 = a
+  & @IO/FS/read_file ~ (@address a)
+
+@control_loop__C5 = (a (* c))
+  & @IO/bind ~ (@control_loop__C4 (((@control_loop__C3 (a b)) b) c))
+
+@control_loop__C6 = b
+  & @IO/FS/open ~ (@address (a b))
+  & @String/Cons ~ (114 (@String/Nil a))
+
+@control_loop__C7 = (a (* c))
+  & @IO/bind ~ (@control_loop__C6 (((@control_loop__C5 (a b)) b) c))
+
+@control_loop__C8 = fb
+  & @String/Cons ~ (100 (eb fb))
+  & @String/Cons ~ (32 (db eb))
+  & @String/Cons ~ (107 (cb db))
+  & @String/Cons ~ (101 (bb cb))
+  & @String/Cons ~ (101 (ab bb))
+  & @String/Cons ~ (112 (z ab))
+  & @String/Cons ~ (115 (y z))
+  & @String/Cons ~ (32 (x y))
+  & @String/Cons ~ (103 (w x))
   & @String/Cons ~ (105 (v w))
-  & @String/Cons ~ (115 (u v))
-  & @String/Cons ~ (32 (t u))
-  & @String/Cons ~ (119 (s t))
-  & @String/Cons ~ (104 (r s))
-  & @String/Cons ~ (101 (q r))
-  & @String/Cons ~ (114 (p q))
+  & @String/Cons ~ (118 (u v))
+  & @String/Cons ~ (105 (t u))
+  & @String/Cons ~ (110 (s t))
+  & @String/Cons ~ (103 (r s))
+  & @String/Cons ~ (32 (q r))
+  & @String/Cons ~ (109 (p q))
   & @String/Cons ~ (101 (o p))
   & @String/Cons ~ (32 (n o))
-  & @String/Cons ~ (97 (m n))
-  & @String/Cons ~ (110 (l m))
-  & @String/Cons ~ (32 (k l))
-  & @String/Cons ~ (101 (j k))
-  & @String/Cons ~ (118 (i j))
-  & @String/Cons ~ (101 (h i))
-  & @String/Cons ~ (110 (g h))
-  & @String/Cons ~ (116 (f g))
-  & @String/Cons ~ (32 (e f))
-  & @String/Cons ~ (103 (d e))
-  & @String/Cons ~ (111 (c d))
+  & @String/Cons ~ (116 (m n))
+  & @String/Cons ~ (104 (l m))
+  & @String/Cons ~ (105 (k l))
+  & @String/Cons ~ (115 (j k))
+  & @String/Cons ~ (32 (i j))
+  & @String/Cons ~ (103 (h i))
+  & @String/Cons ~ (97 (g h))
+  & @String/Cons ~ (114 (f g))
+  & @String/Cons ~ (98 (e f))
+  & @String/Cons ~ (97 (d e))
+  & @String/Cons ~ (103 (c d))
   & @String/Cons ~ (101 (b c))
-  & @String/Cons ~ (115 (a b))
-  & @String/Cons ~ (46 (@String/Nil a))
-  & @bendy__bend0 ~ (bb cb)
+  & @String/Cons ~ (58 (a b))
+  & @String/Cons ~ (10 (@String/Nil a))
 
-@break = a
-  & @break__bend0 ~ (0 (0 a))
+@control_loop__C9 = ((@control_loop__C7 (@IO/wrap a)) a)
 
-@break__bend0 = ({$([>0x000001C] ?(((* (a a)) @break__bend0__C0) (b c))) b} c)
+@main = b
+  & @control_loop ~ (a b)
+  & @IO/wrap ~ (1 a)
 
-@break__bend0__C0 = (* ({$([+0x0000001] a) $([+0x0000001] c)} ({$([*0x0000002] $([+0x0000000] b)) $([*0x0000002] $([+0x0000001] d))} f)))
-  &!@break__bend0 ~ (a (b $([+] $(e f))))
-  &!@break__bend0 ~ (c (d e))
+@undefer = (((a a) b) b)
 
-@halting = a
-  & @halting__bend0 ~ (0 a)
-
-@halting__bend0 = ({$([>0x0000000] a) b} c)
-  & $(a ?(((* 1) @halting__bend0__C0) (b c))) ~ [=0x0000000]
-
-@halting__bend0__C0 = (* ($([+0x0000001] a) b))
-  & @halting__bend0 ~ (a b)
-
-@main = a
-  & @break__bend0 ~ (0 (0 a))
-
-@notbreak = a
-  & @notbreak__bend0 ~ (0 (0 a))
-
-@notbreak__bend0 = ({$([>0x0000008] ?((@notbreak__bend0__C0 @notbreak__bend0__C1) (a b))) a} b)
-
-@notbreak__bend0__C0 = (* a)
-  & @Tree/Leaf ~ a
-
-@notbreak__bend0__C1 = (* ({$([+0x0000001] a) $([+0x0000001] d)} ({$([*0x0000002] $([+0x0000000] b)) $([*0x0000002] $([+0x0000001] e))} g)))
-  & @Tree/Node ~ (c (f g))
-  &!@notbreak__bend0 ~ (a (b c))
-  &!@notbreak__bend0 ~ (d (e f))
-
-@notmain = g
-  & @sum ~ g
-  & @Tree/Node ~ (c (f *))
-  & @Tree/Node ~ (a (b c))
-  & @Tree/Leaf ~ (1 a)
-  & @Tree/Leaf ~ (2 b)
-  & @Tree/Node ~ (d (e f))
-  & @Tree/Leaf ~ (3 d)
-  & @Tree/Leaf ~ (4 e)
-
-@sum = a
-  & @sum__fold0 ~ a
-
-@sum__fold0 = ((@sum__fold0__C1 a) a)
-
-@sum__fold0__C0 = (a (b d))
-  &!@sum__fold0 ~ (a $([+] $(c d)))
-  &!@sum__fold0 ~ (b c)
-
-@sum__fold0__C1 = (?((@sum__fold0__C0 (* (a a))) b) b)
-
-@treemaker = a
-  & @treemaker__bend0 ~ (0 a)
-
-@treemaker__bend0 = ({$([>0x0000003] ?(((* a) @treemaker__bend0__C0) (b c))) b} c)
-  & @Tree/Leaf ~ (7 a)
-
-@treemaker__bend0__C0 = (* ({$([+0x0000001] a) $([+0x0000001] c)} e))
-  & @Tree/Node ~ (b (d e))
-  &!@treemaker__bend0 ~ (a b)
-  &!@treemaker__bend0 ~ (c d)
+@unreachable = *
 
